@@ -21,7 +21,7 @@ outputDir = ['../output/' parts{end}];
 %% Plot Nyquist
 figure
 for ii = 1:16
-semilogx(Zreal(:,ii), Zim(:,ii) * (-1), '.', 'LineWidth',1.4)
+plot(Zreal(:,ii), Zim(:,ii) * (-1), '.', 'LineWidth',1.4)
 hold on
 end
 xlabel('real(Z)')

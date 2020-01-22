@@ -1,6 +1,8 @@
 %% experiment_RspVArray
 % Looking to see how consistent Rsp values are across multiple arrays.
-% Looking at multiple TDTs and UEA vs TDT
+% Looking at multiple TDTs and UEA vs TDT. 
+% Update: subtracting resistance of the recording surface? from Rsp to see
+% if this gives similar values. 
 
 close all 
 clearvars 
@@ -51,3 +53,32 @@ for ii = 1:numExperiments
     hold on
 end
 
+%% Subtracting resistance of the electrode surface
+
+resistivityUEA = 1e-4; % Ohm*m (from Jones et al. 1991)
+surfAreaUEA    =  3e-9; % m^2
+lengthUEA      =  1.5e-3; % m
+resistivityTDT = 5.6e-8;% Ohm*m (tungsten; from wikipedia)
+surfAreaTDT    = 4e-9;  % m^2
+lengthTDT      = 2e-3;  % m
+
+surfResUEA = ( resistivityUEA * lengthUEA ) / surfAreaUEA;
+surfResTDT = (resistivityTDT * lengthTDT ) / surfAreaTDT;
+% Calculate solution Res
+for ii = 1:numExperiments
+    if strcmp(dataStructure(ii).ArrayType,'UEA')
+        dataStructure(ii).Rsolution = dataStructure(ii).Zmag(1,:) - surfResUEA;
+    else
+        dataStructure(ii).Rsolution = dataStructure(ii).Zmag(1,:) - surfResTDT;
+    end
+end
+
+figure
+for ii = 1:numExperiments
+    scatter(ones(1,16)*ii, dataStructure(ii).Rsolution)
+    hold on
+end
+
+%%
+% Maybe something promising here, but need to make sure the UEA calculation
+% is correct... It gets complicated with the coating.
