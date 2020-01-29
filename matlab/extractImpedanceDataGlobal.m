@@ -1,10 +1,16 @@
-function [f, Zreal, Zim, Phase] = extractImpedanceDataGlobal(relPath)
+function [f, Zreal, Zim, Phase, fnames] = extractImpedanceDataGlobal(relPath)
 %[f, Zreal, Zim, Phase] = extractImpedanceDataGlobal(relPath)
 %   This will be a generic function to extract all of the Gamry data to a
 %   structure. 
 %   Inputs: 
 %       relPath: String of relative path of the directory to be analyzed
 %                ex. '../rawData/Gamry/2018-01-30_TDT3_PreSurge'
+%   Outputs:
+%       f      :
+%       Zreal  : 
+%       Zim    :
+%       Phase  :
+%       fnames : cell containing filenames. Same order as other outputs.
 
 % Sets relative filepaths
 currentFile = mfilename( 'fullpath' );
