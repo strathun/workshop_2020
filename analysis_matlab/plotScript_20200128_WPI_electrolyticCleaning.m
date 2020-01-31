@@ -25,7 +25,7 @@ outputDir = ['../output/' parts{end}];
 % Comparing signal amplitude as well as pre-post electrolysis
 % Signal Amplitude
 figure
-[~, numMeasurements] = size(f);
+% [~, numMeasurements] = size(f);
 for ii = 1:4
 plot(Zreal(:,ii), Zim(:,ii) * (-1), '.', 'LineWidth',1.4)
 hold on
@@ -52,7 +52,6 @@ legend('Pre-Clean', 'Clean_R1', 'Clearn_R2')
 % Comparing signal amplitude as well as pre-post electrolysis
 % Signal Amplitude
 figure
-[~, numMeasurements] = size(f);
 for ii = 1:4
 semilogx(f(:,ii), Zreal(:,ii), 'LineWidth', 1.4)
 hold on
@@ -79,7 +78,6 @@ legend('Pre-Clean', 'Clean_R1', 'Clearn_R2')
 % Comparing signal amplitude as well as pre-post electrolysis
 % Signal Amplitude
 figure
-[~, numMeasurements] = size(f);
 for ii = 1:4
 semilogx(f(:,ii), Phase(:,ii), 'LineWidth', 1.4)
 hold on
