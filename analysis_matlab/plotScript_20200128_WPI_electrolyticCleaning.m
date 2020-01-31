@@ -4,6 +4,8 @@
 % their data sheet. Appears to have increased impedance...
 % Also, looking at any effects from signal amplitude from 05-30 mVrms
 
+% [ ] Add Pre cleaning measurements and 24 hours post. 
+
 close all 
 clearvars 
 
