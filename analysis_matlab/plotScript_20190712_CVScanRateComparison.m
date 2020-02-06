@@ -32,7 +32,11 @@ hold on
 end
 xlabel('Potential (V vs Ref)')
 ylabel('Current (A)')
-legend('10mVs', '20', '50', '100')
+lgd = legend('10', '20', '50', '100');
+title(lgd, 'Sweep Rate (mV/s)')
+xlim([-1 1.5])
+grid on
+title('E13')
 
 % Plot E16
 figure
@@ -44,5 +48,9 @@ hold on
 end
 xlabel('Potential (V vs Ref)')
 ylabel('Current (A)')
-legend('10mVs', '20', '50', '100')
+lgd = legend('10', '20', '50', '100');
+title(lgd, 'Sweep Rate (mV/s)')
+xlim([-1 1.5])
+grid on
+title('E13')
 
