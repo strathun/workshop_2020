@@ -15,7 +15,7 @@ outputDir = ['../output/' parts{end}];
 [~, ~] = mkdir(outputDir);
 
 %% Extract impedance data
-[f, Zreal, Zim, Phase, fnames] = ...
+[dataStructure] = ...
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-01-29_WPI04A_inVitro');
 
 %% Plot Nyquist
@@ -23,7 +23,7 @@ figure
 timeArray = 11:18; % This contains the time measurements from this day
 for jj = 1:8
     ii = timeArray(jj);
-    plot(Zreal(:,ii), Zim(:,ii) * (-1), '.', 'LineWidth',1.4)
+    plot(dataStructure(ii).Zreal, dataStructure(ii).Zim * (-1), '.', 'LineWidth',1.4)
     hold on
 end
 xlabel('real(Z)')
@@ -38,7 +38,7 @@ figure
 timeArray = 11:18; % This contains the time measurements from this day
 for jj = 1:8
     ii = timeArray(jj);
-    semilogx(f(:,ii), Zreal(:,ii), 'LineWidth', 1.4)
+    semilogx(dataStructure(ii).f, dataStructure(ii).Zreal, 'LineWidth', 1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
@@ -53,7 +53,7 @@ figure
 timeArray = 11:18; % This contains the time measurements from this day
 for jj = 1:8
     ii = timeArray(jj);
-    semilogx(f(:,ii), Phase(:,ii), 'LineWidth', 1.4)
+    semilogx(dataStructure(ii).f, dataStructure(ii).Phase, 'LineWidth', 1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
@@ -65,12 +65,11 @@ legend('10mins', '15', '20', '25', '30', '35', '40', '45')
 % Comparing signal amplitude as well as pre-post electrolysis
 % Signal Amplitude
 
-Zmag = sqrt((Zreal.^2) + (Zim.^2));
 figure
 timeArray = 11:18; % This contains the time measurements from this day
 for jj = 1:8
     ii = timeArray(jj);
-    semilogx(f(:,ii), Zmag(:,ii), 'LineWidth', 1.4)
+    semilogx(dataStructure(ii).f, dataStructure(ii).Zmag, 'LineWidth', 1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
