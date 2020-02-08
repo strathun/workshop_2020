@@ -19,15 +19,15 @@ outputDir = ['../output/' parts{end}];
 
 %% Extract impedance data
 % Day before electrolysis cleaning
-[f_pre, Zreal_pre, Zim_pre, Phase_pre, fnames_pre] = ...
+[dataStructure_pre] = ...
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-01-27_WPI04A_inVitro');
 
 % Day of electrolysis cleaning
-[f_post, Zreal_post, Zim_post, Phase_post, fnames_post] = ...
+[dataStructure_post] = ...
     extractImpedanceDataGlobal('../rawData/Gamry/2020-01-28_WPI04A_inVitro');
 
 % Day after cleaning
-[f_post2, Zreal_post2, Zim_post2, Phase_post2, fnames_post2] = ...
+[dataStructure_post2] = ...
     extractImpedanceDataGlobal('../rawData/Gamry/2020-01-29_WPI04A_inVitro');
 
 %% Plot Nyquist
@@ -37,7 +37,7 @@ outputDir = ['../output/' parts{end}];
 figure
 % [~, numMeasurements] = size(f);
 for ii = 1:4
-    plot(Zreal_post(:,ii), Zim_post(:,ii) * (-1), '.', 'LineWidth',1.4)
+    plot(dataStructure_post(ii).Zreal, dataStructure_post(ii).Zim * (-1), '.', 'LineWidth',1.4)
     hold on
 end
 xlabel('real(Z)')
@@ -49,20 +49,20 @@ figure
 % Pre-cleaning day. 
 for ii = 1:1
     kk = 5;
-    plot(Zreal_pre(:,kk), Zim_pre(:,kk) * (-1), '.', 'LineWidth',1.4)
+    plot(dataStructure_pre(kk).Zreal, dataStructure_pre(kk).Zim * (-1), '.', 'LineWidth',1.4)
     hold on
 end
 % Electrolytic Cleaning
 plotOrder = [1 5 6];    % Measurements before and after cleaning 1 (5) and 2 (6)
 for ii = 1:3
     kk = plotOrder(ii);
-    plot(Zreal_post(:,kk), Zim_post(:,kk) * (-1), '.', 'LineWidth',1.4)
+    plot(dataStructure_post(kk).Zreal, dataStructure_post(kk).Zim * (-1), '.', 'LineWidth',1.4)
     hold on
 end
 % 24-hours post cleaning First run of that day 
 for ii = 1:1
     kk = 1;
-    plot(Zreal_post2(:,kk), Zim_post2(:,kk) * (-1), '.', 'LineWidth',1.4)
+    plot(dataStructure_post2(kk).Zreal, dataStructure_post2(kk).Zim * (-1), '.', 'LineWidth',1.4)
     hold on
 end
 xlabel('real(Z)')
@@ -76,7 +76,7 @@ legend('Pre-Clean', 'Clean_R1', 'Clearn_R2', 'Clearn_R3', '24hr-Post')
 % Signal Amplitude
 figure
 for ii = 1:4
-semilogx(f_post(:,ii), Zreal_post(:,ii), 'LineWidth', 1.4)
+semilogx(dataStructure_post(ii).f, dataStructure_post(ii).Zreal, 'LineWidth', 1.4)
 hold on
 end
 xlabel('Frequency (Hz)')
@@ -89,20 +89,20 @@ figure
 % Pre-cleaning day. 
 for ii = 1:1
     kk = 5;
-    semilogx(f_pre(:,kk), Zreal_pre(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_pre(kk).f, dataStructure_pre(kk).Zreal, 'LineWidth',1.4)
     hold on
 end
 % Electrolytic Cleaning
 plotOrder = [1 5 6];    % Measurements before and after cleaning 1 (5) and 2 (6)
 for ii = 1:3
     kk = plotOrder(ii);
-    semilogx(f_post(:,kk), Zreal_post(:,kk), 'LineWidth', 1.4)
+    semilogx(dataStructure_post(kk).f, dataStructure_post(kk).Zreal, 'LineWidth', 1.4)
     hold on
 end
 % 24-hours post cleaning First run of that day 
 for ii = 1:1
     kk = 1;
-    semilogx(f_post2(:,kk), Zreal_post2(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_post2(kk).f, dataStructure_post2(kk).Zreal, 'LineWidth',1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
@@ -116,7 +116,7 @@ legend('Pre-Clean', 'Clean_R1', 'Clearn_R2', 'Clearn_R3', '24hr-Post')
 % Signal Amplitude
 figure
 for ii = 1:4
-semilogx(f_post(:,ii), Phase_post(:,ii), 'LineWidth', 1.4)
+semilogx(dataStructure_post(ii).f, dataStructure_post(ii).Phase, 'LineWidth', 1.4)
 hold on
 end
 xlabel('Frequency (Hz)')
@@ -129,20 +129,20 @@ figure
 % Pre-cleaning day. 
 for ii = 1:1
     kk = 5;
-    semilogx(f_pre(:,kk), Phase_pre(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_pre(kk).f, dataStructure_pre(kk).Phase, 'LineWidth',1.4)
     hold on
 end
 % Electrolytic Cleaning
 plotOrder = [1 5 6];    % Measurements before and after cleaning 1 (5) and 2 (6)
 for ii = 1:3
     kk = plotOrder(ii);
-    semilogx(f_post(:,kk), Phase_post(:,kk), 'LineWidth', 1.4)
+    semilogx(dataStructure_post(kk).f, dataStructure_post(kk).Phase, 'LineWidth', 1.4)
     hold on
 end
 % 24-hours post cleaning First run of that day 
 for ii = 1:1
     kk = 1;
-    semilogx(f_post2(:,kk), Phase_post2(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_post2(kk).f, dataStructure_post2(kk).Phase, 'LineWidth',1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
@@ -152,17 +152,10 @@ legend('Pre-Clean', 'Clean_R1', 'Clearn_R2', 'Clearn_R3', '24hr-Post')
 
 %% Plot Mag Impedance
 % Comparing signal amplitude as well as pre-post electrolysis
-
-% Calc magnitude of impedance
-Zmag_pre = sqrt((Zreal_pre.^2) + (Zim_pre.^2));
-Zmag_post = sqrt((Zreal_post.^2) + (Zim_post.^2));
-Zmag_post2 = sqrt((Zreal_post2.^2) + (Zim_post2.^2));
-
 % Signal Amplitude
 figure
-[~, numMeasurements] = size(f_post);
 for ii = 1:4
-semilogx(f_post(:,ii), Zmag_post(:,ii), 'LineWidth', 1.4)
+semilogx(dataStructure_post(ii).f, dataStructure_post(ii).Zmag, 'LineWidth', 1.4)
 hold on
 end
 xlabel('Frequency (Hz)')
@@ -174,20 +167,20 @@ figure
 % Pre-cleaning day. 
 for ii = 1:1
     kk = 5;
-    semilogx(f_pre(:,kk), Zmag_pre(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_pre(kk).f, dataStructure_pre(kk).Zmag, 'LineWidth',1.4)
     hold on
 end
 % Electrolytic Cleaning
 plotOrder = [1 5 6];    % Measurements before and after cleaning 1 (5) and 2 (6)
 for ii = 1:3
     kk = plotOrder(ii);
-    semilogx(f_post(:,kk), Zmag_post(:,kk), 'LineWidth', 1.4)
+    semilogx(dataStructure_post(kk).f, dataStructure_post(kk).Zmag, 'LineWidth', 1.4)
     hold on
 end
 % 24-hours post cleaning First run of that day 
 for ii = 1:1
     kk = 1;
-    semilogx(f_post2(:,kk), Zmag_post2(:,kk), 'LineWidth',1.4)
+    semilogx(dataStructure_post2(kk).f, dataStructure_post2(kk).Zmag, 'LineWidth',1.4)
     hold on
 end
 xlabel('Frequency (Hz)')
