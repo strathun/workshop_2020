@@ -25,7 +25,6 @@ outputDir = ['../output/' parts{end}];
 
 %% Stats for each measurement
 % All EIS measurements were taken 3 times in a row. 
-
 % Pull everything into arrays so we can work with it
 kk = 1; % Counter for avgStructure
 jj = 1; % Counter for avg arrays
@@ -50,36 +49,49 @@ for ii = 1:numRuns
         jj = 1; % reset loop counter
     end
 end
+% NOTE: Removing second old PBS run for now, since I'm not sure what is
+% causing the interference. 
+avgStructure(5) = [];
 
 %% Plot Mag Impedance
 figure
 numSols = length(avgStructure);
 for ii = 1:numSols
     errorbar(dataStructure(ii).f, ...
-             avgStructure(ii).Zmag, ...
-             avgStructure(ii).Zmagstd)
+             avgStructure(ii).Zmag./1e6, ...
+             avgStructure(ii).Zmagstd./1e6)
     hold on
 end
 set(gca, 'Xscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'Impedance (mag)' ) 
-legend('0.5xPBS', '1xPBS vs AgAgCl', '1xPBS', 'AISF', 'LabPBS Run 2', 'LabPBS Run 1');
+ylabel( 'mag(Z) (MOhm)' ) 
+legend('0.5xPBS', '1xPBS vs AgAgCl', '1xPBS', 'AISF', 'LabPBS Run 1');
+xlim([10 1e6])
 
 %% Comparing References (Pt. vs AgAgCl)
 figure
-numSols = length(avgStructure);
 for ii = 2:3
     errorbar(dataStructure(ii).f, ...
-             avgStructure(ii).Zmag, ...
-             avgStructure(ii).Zmagstd)
+             avgStructure(ii).Zmag./1e6, ...
+             avgStructure(ii).Zmagstd./1e6)
     hold on
 end
 set(gca, 'Xscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'Impedance (mag)' ) 
+ylabel( 'mag(Z) (MOhm)' ) 
 legend('1xPBS vs AgAgCl', '1xPBS');
 xlim([10 1e6])
+ylim([0 0.7])
 
-% ylim([0 1.2E5])
+%% Nyquist Comparisons
+figure
+numSols = length( avgStructure );
+for ii = 1:numSols
+    plot( avgStructure( ii ).Zreal, avgStructure( ii ).Zim * -1, '.')
+    hold on
+end
+xlabel( 'real(z)' )
+ylabel( 'im(Z)' ) 
+legend('0.5xPBS', '1xPBS vs AgAgCl', '1xPBS', 'AISF', 'LabPBS Run 1');
 %%
 % 
