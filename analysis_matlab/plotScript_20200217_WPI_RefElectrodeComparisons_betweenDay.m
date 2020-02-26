@@ -4,9 +4,9 @@
 % days, or in other words, if there are any strange inconsistencies in the
 % measurements that might be influencing results
 % Comparing EIS measurements for 3 different electrode configurations:
-% Ref: Pt;   Counter: Pt [both Pt. are from cap]
-% Ref: AgCl; Counter: Pt (from cap)
-% Ref: AgCl; Counter: Pt (New wire soldered to Pt.)
+% [PtCPtC] Ref: Pt;   Counter: Pt [both Pt. are from cap] 
+% [AgPtC]  Ref: AgCl; Counter: Pt (from cap)
+% [AgPtW]  Ref: AgCl; Counter: Pt (New wire soldered to Pt.)
 % All measurements made in 0.5xPBS
 
 close all 
@@ -73,6 +73,7 @@ set(gca, 'Xscale', 'log')
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (MOhm)' ) 
 legend('Day 2', 'Day 1');
+title('PtCPtC Config between days (0.5x PBS)')
 xlim([10 1e6])
 %%
 % Looks very different
@@ -93,20 +94,14 @@ set(gca, 'Xscale', 'log')
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (MOhm)' ) 
 legend('Day 2 (.5xPBS)', 'Day 1 (1xPBS)');
+title('AgPtW config between days')
 xlim([10 1e6])
 %%
-% Looks similar
+% Looks similar. Also, finally see 0.5x with higher impedance than 1xPBS.
+% Interestingly, this is across the frequency spectrum rather than just at
+% higher frequencies as described for solutions with the same buffer
+% concentration by Cogan.
 
-%% Nyquist Comparisons
-figure
-numSols = length( avgStructure );
-for ii = 1:numSols
-    plot( avgStructure( ii ).Zreal, avgStructure( ii ).Zim * -1, '.')
-    hold on
-end
-xlabel( 'real(z)' )
-ylabel( 'im(Z)' ) 
-legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
 %%
 % 20200217
 % There is definitely a difference between measurements made in Day 1 and
