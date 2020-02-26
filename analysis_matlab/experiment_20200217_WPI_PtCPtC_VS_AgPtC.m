@@ -1,9 +1,8 @@
-%% experiment_20200217_WPI_PtCapVsPtWire
-% Gut check to see if there are any large differences between cap Pt ref
-% and the Pt wire.
+%% experiment_20200217_WPI_PtCPtC_VS_AgPtC
+% Looking at extent of differences between Pt and Ag reference wire.
 % Comparing EIS measurements for 2 different electrode configurations:
+% [PtCPtC] Ref: Pt;   Counter: Pt [both Pt. are from cap]
 % [AgPtC]  Ref: AgCl; Counter: Pt (from cap)
-% [AgPtW]  Ref: AgCl; Counter: Pt (New wire soldered to Pt.)
 % All measurements made in 0.5xPBS
 
 close all 
@@ -52,21 +51,21 @@ end
 
 %% Compare Pt Counter electrodes
 figure
-meaSelect = [1 2];  %1 = AgPtW; 2 = AgPtC
+meaSelect = [2 3];  % 2 = AgPtC; 3 = PtCPtC
 numSols = length(meaSelect);
 for ii = 1:numSols
     jj = meaSelect(ii);
     errorbar(dataStructure(jj).f, ...
-             avgStructure(jj).Zmag./1e6, ...
-             avgStructure(jj).Zmagstd./1e6)
+             avgStructure(jj).Zmag./1e3, ...
+             avgStructure(jj).Zmagstd./1e3)
     hold on
 end
 set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'mag(Z) (MOhm)' ) 
-legend('Pt Wire', 'Pt Cap');
-title('Comparison of Pt Counter electrodes')
+ylabel( 'mag(Z) (KOhm)' ) 
+legend('Ag Ref', 'Pt Ref');
+title('Comparison of Ag vs Pt Reference')
 xlim([10 1e6])
 %%
-% Look very similar. Good indicator that there isn't any obvious
-% significant differences between the two counter electrodes. 
+% 
