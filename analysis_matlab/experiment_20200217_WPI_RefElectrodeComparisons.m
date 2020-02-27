@@ -4,6 +4,9 @@
 % Ref: AgCl; Counter: Pt (from cap)
 % Ref: AgCl; Counter: Pt (New wire soldered to Pt.)
 % All measurements made in 0.5xPBS
+% Adding comparison for AISF
+% [PtCPtC] in artifical interstitial fluid (AISF) (20200213)
+% [AgPtW]  AISF (20200227)
 
 close all 
 clearvars 
@@ -21,6 +24,15 @@ outputDir = ['../output/' parts{end}];
 %% Extract impedance data
 [dataStructure] = ...
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-17_WPI04A_inVitro\Impedance');
+[dataStructure_2] = ...
+    extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-13_WPI04A_inVitro\Impedance');
+[dataStructure_3] = ...
+    extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-27_WPI04A_inVitro\Impedance');
+
+dataStructure = [dataStructure dataStructure_2];
+dataStructure = [dataStructure dataStructure_3];
+dataStructure_2 = [];   % Empty to save mem.
+dataStructure_3 = [];   
 
 %% Stats for each measurement
 % All EIS measurements were taken 3 times in a row. 
@@ -49,33 +61,64 @@ for ii = 1:numRuns
     end
 end
 
-%% Plot Mag Impedance
+%% Plot Mag Impedance for 0p5 PBS
 figure
-numSols = length(avgStructure);
+meaSelect = [1 2 3];  % 1: AgPtW; 2: AgPtC; 3: PtCPtC
+numSols = length(meaSelect);
 for ii = 1:numSols
-    errorbar(dataStructure(ii).f, ...
-             avgStructure(ii).Zmag./1e6, ...
-             avgStructure(ii).Zmagstd./1e6)
+    jj = meaSelect(ii);
+    errorbar(dataStructure(jj).f, ...
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
     hold on
 end
 set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'mag(Z) (MOhm)' ) 
+ylabel( 'mag(Z) (Ohm)' ) 
+title( 'Op5 PBS' )
 legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
 xlim([10 1e6])
 
 %% Nyquist Comparisons
 figure
-numSols = length( avgStructure );
+meaSelect = [1 2 3];  % 1: AgPtW; 2: AgPtC; 3: PtCPtC
+numSols = length(meaSelect);
 for ii = 1:numSols
-    plot( avgStructure( ii ).Zreal, avgStructure( ii ).Zim * -1, '.')
+    jj = meaSelect(ii);
+    plot( avgStructure( jj ).Zreal, avgStructure( jj ).Zim * -1, '.')
     hold on
 end
 xlabel( 'real(z)' )
 ylabel( 'im(Z)' ) 
+title( 'Op5 PBS' )
 legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
+
 %%
 % Definitely looks to be a difference in low frequency measurements made
 % with AgCl reference electrode and two Pt electrodes. I wonder if we just
 % need to account for surface area? 
+
+%% Plot Mag Impedance for AISF
+figure
+meaSelect = [7 10];  % 7: PtCPtC; 10: AgPtW
+numSols = length(meaSelect);
+for ii = 1:numSols
+    jj = meaSelect(ii);
+    errorbar(dataStructure(jj).f, ...
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
+    hold on
+end
+set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
+title('AISF')
+xlabel( 'Frequency (Hz)' )
+ylabel( 'mag(Z) (Ohm)' ) 
+legend('PtCPtC', 'AgPtW');
+xlim([10 1e6])
+
+%%
+% Very different differences for AISF between electrode setups. Across the
+% spectrum decrease in impedance, vs increase in low f impedance seen above
+% with 0p5 PBS...
