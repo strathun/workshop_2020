@@ -7,6 +7,9 @@
 % Adding comparison for AISF
 % [PtCPtC] in artifical interstitial fluid (AISF) (20200213)
 % [AgPtW]  AISF (20200227)
+% Adding comparison for 1xPBS
+% [PtCPtC] (20200213)
+% [AgPtC]  (20200213)
 
 close all 
 clearvars 
@@ -122,3 +125,25 @@ xlim([10 1e6])
 % Very different differences for AISF between electrode setups. Across the
 % spectrum decrease in impedance, vs increase in low f impedance seen above
 % with 0p5 PBS...
+
+%% Plot Mag Impedance for 1xPBS
+figure
+meaSelect = [5 6];  % 7: PtCPtC; 10: AgPtW
+numSols = length(meaSelect);
+for ii = 1:numSols
+    jj = meaSelect(ii);
+    errorbar(dataStructure(jj).f, ...
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
+    hold on
+end
+set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
+title('1xPBS')
+xlabel( 'Frequency (Hz)' )
+ylabel( 'mag(Z) (Ohm)' ) 
+legend('PtCPtC', 'AgPtW');
+xlim([10 1e6])
+
+%%
+% Same as with AISF... At least there is consistency. 
