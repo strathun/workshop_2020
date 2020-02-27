@@ -65,13 +65,14 @@ numSols = length(meaSelect);
 for ii = 1:numSols
     jj = meaSelect(ii);
     errorbar(dataStructure(jj).f, ...
-             avgStructure(jj).Zmag./1e6, ...
-             avgStructure(jj).Zmagstd./1e6)
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
     hold on
 end
 set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'mag(Z) (MOhm)' ) 
+ylabel( 'mag(Z) (Ohm)' ) 
 legend('Day 2', 'Day 1');
 title('PtCPtC Config between days (0.5x PBS)')
 xlim([10 1e6])
@@ -86,13 +87,14 @@ numSols = length(meaSelect);
 for ii = 1:numSols
     jj = meaSelect(ii);
     errorbar(dataStructure(jj).f, ...
-             avgStructure(jj).Zmag./1e6, ...
-             avgStructure(jj).Zmagstd./1e6)
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
     hold on
 end
 set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
-ylabel( 'mag(Z) (MOhm)' ) 
+ylabel( 'mag(Z) (Ohm)' ) 
 legend('Day 2 (.5xPBS)', 'Day 1 (1xPBS)');
 title('AgPtW config between days')
 xlim([10 1e6])
