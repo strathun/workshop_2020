@@ -59,6 +59,7 @@ for ii = 1:numSols
     hold on
 end
 set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (MOhm)' ) 
 legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
