@@ -7,6 +7,7 @@
 % [PtCPtC] in artifical interstitial fluid (AISF)
 % [AgPtW]  0.5xPBS
 % [AgPtW]  1.0xPBS
+% [AgPtW]  AISF
 
 close all 
 clearvars 
@@ -26,9 +27,13 @@ outputDir = ['../output/' parts{end}];
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-17_WPI04A_inVitro\Impedance');
 [dataStructure_2] = ...
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-13_WPI04A_inVitro\Impedance');
+[dataStructure_3] = ...
+    extractImpedanceDataGlobal('..\rawData\Gamry\2020-02-27_WPI04A_inVitro\Impedance');
 
 dataStructure = [dataStructure dataStructure_2];
+dataStructure = [dataStructure dataStructure_3];
 dataStructure_2 = [];   % Empty to save mem.
+dataStructure_3 = [];   
 
 %% Stats for each measurement
 % All EIS measurements were taken 3 times in a row. 
@@ -59,7 +64,7 @@ end
 
 %% Compare Mag Impedance across solutions
 figure
-meaSelect = [1 5 7];  % 1: AgPtW, 0.5x; 5: AgPtW, 1x; 7: PtPt, AISF
+meaSelect = [1 5 7 10];  % 1: AgPtW, 0.5x; 5: AgPtW, 1x; 7: PtPt, AISF; 10:AgPtW, AISF
 numSols = length(meaSelect);
 for ii = 1:numSols
     jj = meaSelect(ii);
@@ -72,7 +77,7 @@ set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (Ohm)' ) 
-legend('AgPtW, 0.5x', 'AgPtW, 1x', 'PtPt, AISF');
+legend('AgPtW, 0.5x', 'AgPtW, 1x', 'PtPt, AISF', 'AgPtW, AISF');
 title('')
 xlim([10 1e6])
 %%
