@@ -4,10 +4,10 @@
 % measurements, it might have been something to do with the cap wires, but
 % can't say definitively now. 
 % Comparing EIS measurements for 3 different solutions/configurations:
-% [PtCPtC] in artifical interstitial fluid (AISF)
-% [AgPtW]  0.5xPBS
-% [AgPtW]  1.0xPBS
-% [AgPtW]  AISF
+% [PtCPtC] in artifical interstitial fluid (AISF) (20200213)
+% [AgPtW]  0.5xPBS (20200217)
+% [AgPtW]  1.0xPBS (20200213)
+% [AgPtW]  AISF    (20200227)
 
 close all 
 clearvars 
