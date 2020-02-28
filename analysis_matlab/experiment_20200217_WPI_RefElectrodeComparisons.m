@@ -79,7 +79,7 @@ set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (Ohm)' ) 
-title( 'Op5 PBS' )
+title( '0p5 PBS' )
 legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
 xlim([10 1e6])
 
@@ -94,7 +94,7 @@ for ii = 1:numSols
 end
 xlabel( 'real(z)' )
 ylabel( 'im(Z)' ) 
-title( 'Op5 PBS' )
+title( '0p5 PBS' )
 legend('NewPt/AgAgCl', 'CapPt/AgAgCl', 'CapPt/CapPt');
 
 %%
