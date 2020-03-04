@@ -1,5 +1,5 @@
 function [dataStructure] = extractOCPData(relPath)
-%[f, Zreal, Zim, Phase] = extractImpedanceDataGlobal(relPath)
+%[t, OCP, fnames] = extractOCPData(relPath)
 %   This will be a generic function to extract all of the Gamry data to a
 %   structure. 
 %   Inputs: 
@@ -7,10 +7,9 @@ function [dataStructure] = extractOCPData(relPath)
 %                ex. '../rawData/Gamry/2018-01-30_TDT3_PreSurge'
 %   Outputs:
 %   dataStructure.
-%       f      :
-%       Zreal  : 
-%       Zim    :
-%       Phase  :
+%       t      :
+%       OCP    : I believe this is the OCP
+%       Vm     : Not sure what this is exactly
 %       fnames : cell containing filenames. Same order as other outputs.
 
 % Sets relative filepaths
@@ -33,7 +32,7 @@ fid = fopen(fnames{3}, 'rt');
 % read the entire file, if not too big
 textRows = textscan(fid, '%s', 'delimiter', '\n');
 % search for your Region:
-a = strfind(textRows{1},'ZCURVE');
+a = strfind(textRows{1},'CURVE');
 startLine = find(not(cellfun('isempty',a)));
 fclose(fid);
 
@@ -45,11 +44,9 @@ for kk = 3:length(fnames)
                           'headerlines', startLine+2, ...
                           'ReadVariableNames', false);
     dataStructure(kk-2).fname = fname;
-    dataStructure(kk-2).f = rawTable.Var4;
-    dataStructure(kk-2).Zreal = rawTable.Var5;
-    dataStructure(kk-2).Zim = rawTable.Var6;
-    dataStructure(kk-2).Zmag = sqrt( ( rawTable.Var5.^2 ) + ( rawTable.Var6.^2 ) );
-    dataStructure(kk-2).Phase = rawTable.Var9;
+    dataStructure(kk-2).t = rawTable.Var3;
+    dataStructure(kk-2).OCP = rawTable.Var4;
+    dataStructure(kk-2).Vm = rawTable.Var5;
 end
 
 cd(currentFolder)
