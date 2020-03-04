@@ -80,6 +80,28 @@ ylabel( 'mag(Z) (Ohm)' )
 legend('AgPtW, 0.5x', 'AgPtW, 1x', 'PtPt, AISF', 'AgPtW, AISF');
 title('')
 xlim([10 1e6])
+ylim([1e3 2e6])
 %%
-% Differences don't seem to dramatic here. Really should take a second
+% Differences don't seem too dramatic here. Really should take a second
 % measurements using the AgCl setup in the new AISF solution. 
+
+%% Compare Mag Impedance across solutions (same configurations)
+% Replot of above without PtPt
+figure
+meaSelect = [1 5 10];  % 1: AgPtW, 0.5x; 5: AgPtW, 1x; AISF; 10:AgPtW, AISF
+numSols = length(meaSelect);
+for ii = 1:numSols
+    jj = meaSelect(ii);
+    errorbar(dataStructure(jj).f, ...
+             avgStructure(jj).Zmag, ...
+             avgStructure(jj).Zmagstd)
+    hold on
+end
+set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
+xlabel( 'Frequency (Hz)' )
+ylabel( 'mag(Z) (Ohm)' ) 
+legend('AgPtW, 0.5x', 'AgPtW, 1x', 'AgPtW, AISF');
+title('')
+xlim([10 1e6])
+ylim([1e3 2e6])
