@@ -71,6 +71,7 @@ for ii = 1:numSols
 end
 set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
+set(gca,'FontSize',18)
 xlabel( 'Frequency (Hz)' )
 ylabel( 'mag(Z) (Ohm)' ) 
 legend('Day 2', 'Day 1');
