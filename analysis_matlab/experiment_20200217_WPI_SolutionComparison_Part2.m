@@ -105,3 +105,4 @@ legend('AgPtW, 0.5x', 'AgPtW, 1x', 'AgPtW, AISF');
 title('')
 xlim([10 1e6])
 ylim([1e3 2e6])
+set(gca,'FontSize',18)
