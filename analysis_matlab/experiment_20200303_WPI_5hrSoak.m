@@ -24,8 +24,8 @@ outputDir = ['../output/' parts{end}];
 %% Extract impedance data
 [dataStructure_Impedance_temp] = ...
     extractImpedanceDataGlobal('..\rawData\Gamry\2020-03-03_WPI04A_inVitro\Impedance');
-% [dataStructure_OCP] = ...
-%     extractOCPData('..\rawData\Gamry\2020-03-03_WPI04A_inVitro\OCP');
+[dataStructure_OCP_temp] = ...
+    extractOCPData('..\rawData\Gamry\2020-03-03_WPI04A_inVitro\OCP');
    
 
 %% Rearrange dataStructure 
@@ -51,6 +51,13 @@ for ii = 1:( numRuns / 3 )
     pp = pp + 1;
 end
 
+% Now rearrange for OCP
+dataStructure_OCP(1:3) = dataStructure_OCP_temp( 1:3 ); % This part is correct
+orderArray_OCP = orderArray + 3;
+for ii = 1: ( length(dataStructure_OCP_temp) - 3 )
+    jj = orderArray_OCP(ii);
+    dataStructure_OCP(ii + 3) = dataStructure_OCP_temp( jj );
+end
 
 %% Stats for each measurement
 % All EIS measurements were taken 3 times in a row. 
@@ -98,4 +105,27 @@ legend('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', ...
 title('Impedance Changes over Time in 1xPBS')
 xlim([10 1e6])
 %%
-% 
+% Not a ton of change here after the first 3 or so EIS meaurements. Check
+% to see how OCP levels off at this point (below)
+
+%% Plot OCP
+
+figure
+numOCP = length( dataStructure_OCP );
+timeLast = 0;
+for ii = 1:numOCP
+    timeUpdated = dataStructure_OCP(ii).t + timeLast;
+    plot( dataStructure_OCP(ii).t + timeLast, dataStructure_OCP(ii).OCP )
+    timeLast = timeUpdated(end);    % Have to do this so everything can be on one plot
+    hold on
+end
+xlabel( 'Time (s)' )
+ylabel( 'Voltage (V)' ) 
+title('OCP measurements over time of experiment')
+
+%%
+% Definitely see trend for first 3 measurements of EIS. Overall, not
+% totally sure how to interpret this. They do seem pretty consistent after
+% these first 3. Should do the following:
+%   Correlate starting OCP with impedance
+%   Quantify induced offset from EIS (how consistent is this, etc.)
