@@ -104,6 +104,28 @@ legend('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', ...
     '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24');
 title('Impedance Changes over Time in 1xPBS')
 xlim([10 1e6])
+set(gca,'FontSize',18)
+
+%% Compare Mag Impedance across time
+% Repeating above plot with just first 4 measurements
+figure
+for ii = 1:4
+    errorbar(dataStructure_Impedance(ii).f, ...
+             avgStructure(ii).Zmag, ...
+             avgStructure(ii).Zmagstd)
+    hold on
+end
+set(gca, 'Xscale', 'log')
+set(gca, 'Yscale', 'log')
+xlabel( 'Frequency (Hz)' )
+ylabel( 'mag(Z) (Ohm)' ) 
+legend('1', '2', '3', '4');
+title('Impedance Changes over Time in 1xPBS')
+% xlim([10 1e6])
+% ylim([7e2 7e4])
+xlim([999 1002])
+ylim([2.25e4 2.55e4])
+set(gca,'FontSize',18)
 %%
 % Not a ton of change here after the first 3 or so EIS meaurements. Check
 % to see how OCP levels off at this point (below)
@@ -114,14 +136,16 @@ figure
 numOCP = length( dataStructure_OCP );
 timeLast = 0;
 for ii = 1:numOCP
-    timeUpdated = dataStructure_OCP(ii).t + timeLast;
-    plot( dataStructure_OCP(ii).t + timeLast, dataStructure_OCP(ii).OCP )
+    timeUpdated = (dataStructure_OCP(ii).t + timeLast);
+    plot( ( dataStructure_OCP(ii).t + timeLast )./60, dataStructure_OCP(ii).OCP.*(1e3), ...
+         'LineWidth', 1.5)
     timeLast = timeUpdated(end);    % Have to do this so everything can be on one plot
     hold on
 end
-xlabel( 'Time (s)' )
-ylabel( 'Voltage (V)' ) 
+xlabel( 'Time (minutes)' )
+ylabel( 'Voltage (mV)' ) 
 title('OCP measurements over time of experiment')
+set(gca,'FontSize',18)
 
 %%
 % Definitely see trend for first 3 measurements of EIS. Overall, not
