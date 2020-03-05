@@ -27,14 +27,14 @@ figure
 for jj = 1:4
     ii = E13Scans(jj);
 plot(dataStructure(ii).potential(3,:), ...
-    dataStructure(ii).current(3,:),'.')
+    dataStructure(ii).current(3,:).* (1e6),'.')
 hold on
 end
 xlabel('Potential (V vs Ref)')
-ylabel('Current (A)')
+ylabel('Current (uA)')
 lgd = legend('10', '20', '50', '100');
 title(lgd, 'Sweep Rate (mV/s)')
-xlim([-1 1.5])
+xlim([-0.8 1])
 grid on
 title('E13')
 
@@ -43,14 +43,14 @@ figure
 for jj = 1:4
     ii = E16Scans(jj);
 plot(dataStructure(ii).potential(3,:), ...
-    dataStructure(ii).current(3,:),'.')
+    dataStructure(ii).current(3,:).* (1e6),'.')
 hold on
 end
 xlabel('Potential (V vs Ref)')
-ylabel('Current (A)')
+ylabel('Current (uA)')
 lgd = legend('10', '20', '50', '100');
 title(lgd, 'Sweep Rate (mV/s)')
-xlim([-1 1.5])
+xlim([-0.8 1])
 grid on
 title('E13')
 
