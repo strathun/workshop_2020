@@ -52,5 +52,5 @@ lgd = legend('10', '20', '50', '100');
 title(lgd, 'Sweep Rate (mV/s)')
 xlim([-0.8 1])
 grid on
-title('E13')
+title('E16')
 
